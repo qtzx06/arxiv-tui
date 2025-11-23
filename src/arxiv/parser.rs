@@ -20,14 +20,14 @@ struct Entry {
     author: Vec<Author>,
     category: Vec<CategoryAttr>,
     link: Vec<Link>,
-    #[serde(rename = "arxiv:comment")]
+    #[serde(rename = "arxiv:comment", default)]
     comment: Option<String>,
-    #[serde(rename = "arxiv:journal_ref")]
+    #[serde(rename = "arxiv:journal_ref", default)]
     journal_ref: Option<String>,
-    #[serde(rename = "arxiv:doi")]
+    #[serde(rename = "arxiv:doi", default)]
     doi: Option<String>,
-    #[serde(rename = "arxiv:primary_category")]
-    primary_category: PrimaryCategory,
+    #[serde(rename = "arxiv:primary_category", default)]
+    primary_category: Option<PrimaryCategory>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -63,8 +63,8 @@ pub fn parse_arxiv_response(xml: &str) -> Result<Vec<Paper>> {
         .into_iter()
         .map(|entry| -> Result<Paper> {
             let arxiv_id = extract_arxiv_id(&entry.id);
-            let authors = entry.author.into_iter().map(|a| a.name).collect();
-            let categories = entry.category.into_iter().map(|c| c.term).collect();
+            let authors: Vec<String> = entry.author.into_iter().map(|a| a.name).collect();
+            let categories: Vec<String> = entry.category.into_iter().map(|c| c.term).collect();
             let pdf_url = entry
                 .link
                 .iter()
@@ -79,12 +79,16 @@ pub fn parse_arxiv_response(xml: &str) -> Result<Vec<Paper>> {
                 abstract_text: entry.summary.trim().to_string(),
                 published: DateTime::parse_from_rfc3339(&entry.published)?.with_timezone(&chrono::Utc),
                 updated: DateTime::parse_from_rfc3339(&entry.updated)?.with_timezone(&chrono::Utc),
-                categories,
+                categories: categories.clone(),
                 pdf_url,
                 comment: entry.comment,
                 journal_ref: entry.journal_ref,
                 doi: entry.doi,
-                primary_category: entry.primary_category.term,
+                primary_category: entry
+                    .primary_category
+                    .map(|pc| pc.term)
+                    .or_else(|| categories.first().cloned())
+                    .unwrap_or_default(),
             })
         })
         .collect::<Result<Vec<_>>>()?;

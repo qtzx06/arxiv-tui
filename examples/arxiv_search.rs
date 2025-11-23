@@ -46,15 +46,16 @@ async fn main() -> anyhow::Result<()> {
         println!("   ID: {}\n", paper.arxiv_id);
     }
 
-    // Example 4: Advanced search with arXiv query syntax
-    println!("\n4. Advanced search: Recent computer vision papers...\n");
+    // Example 4: Simple category search
+    println!("\n4. Category search: Computer Vision papers...\n");
     let advanced_results = client
-        .search("cat:cs.CV AND submittedDate:[202401* TO *]", Some(5))
+        .search("cat:cs.CV", Some(5))
         .await?;
 
     for (i, paper) in advanced_results.iter().enumerate() {
         println!("{}. {}", i + 1, paper.title);
         println!("   Submitted: {}", paper.published.format("%Y-%m-%d"));
+        println!("   Categories: {}", paper.categories_string());
         println!();
     }
 

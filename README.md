@@ -11,13 +11,59 @@ A high-performance terminal user interface for searching, browsing, and managing
 - **Citation Graph**: Explore relationships between papers
 - **PDF Downloads**: Download and manage papers locally
 
+## Quick Start
+
+**Get running in 5 minutes!** See [QUICKSTART.md](./QUICKSTART.md)
+
+```bash
+# 1. Start HelixDB
+helix serve
+
+# 2. Load schema
+cd helix && helix load schema.hx && helix load queries.hx
+
+# 3. Run full pipeline
+cargo run --example helix_integration
+```
+
+## Examples
+
+### Check HelixDB Connection
+```bash
+cargo run --example check_helix
+```
+
+### Full RAG Pipeline
+```bash
+# Fetch papers, generate embeddings, store in HelixDB, semantic search
+cargo run --example helix_integration
+```
+
+### Ingest Papers
+```bash
+# Add 40 papers to database (AI, ML, NLP, Vision)
+cargo run --example ingest_papers
+```
+
+### Interactive Semantic Search
+```bash
+# Search papers by natural language queries
+cargo run --example semantic_search
+```
+
+### arXiv API Only
+```bash
+# Test arXiv integration without database
+cargo run --example arxiv_search
+```
+
 ## Prerequisites
 
 - Rust 1.88.0 or higher (`rustup update`)
-- HelixDB instance running (default: `localhost:6969`)
-- ONNX model for embeddings (see Setup below)
+- HelixDB instance running (see [HELIX_SETUP.md](./HELIX_SETUP.md))
+- ONNX model for embeddings (optional, placeholder works for testing)
 
-## Setup
+## Detailed Setup
 
 ### 1. Install HelixDB
 
