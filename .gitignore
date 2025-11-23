@@ -1,0 +1,35 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache and logs
+.cache/
+*.log
+
+# Models (users download these manually)
+models/*.onnx
+models/*.json
+
+# Downloaded papers
+*.pdf
+
+# Config overrides
+config/local.toml
+config/production.toml
+
+# Environment
+.env
+.env.local

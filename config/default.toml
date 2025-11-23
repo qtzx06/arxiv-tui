@@ -1,0 +1,63 @@
+# arXiv TUI Configuration
+
+[arxiv]
+# Rate limiting for arXiv API (they require 3 seconds between requests)
+rate_limit_delay_ms = 3000
+# Maximum results per search query
+max_results = 100
+# Default categories to show in browse view
+default_categories = ["cs.AI", "cs.LG", "cs.CL", "cs.CV"]
+
+[helixdb]
+# HelixDB server endpoint
+endpoint = "http://localhost"
+# HelixDB server port (default: 6969)
+port = 6969
+# API key for authentication (leave empty for local dev)
+api_key = ""
+
+[embeddings]
+# Path to ONNX model file
+model_path = "./models/all-MiniLM-L6-v2.onnx"
+# Batch size for embedding generation
+batch_size = 32
+# Device to use for inference (cpu or cuda)
+device = "cpu"
+# Embedding dimension (384 for all-MiniLM-L6-v2)
+dimension = 384
+
+[ui]
+# Color theme (dark or light)
+theme = "dark"
+# Keybinding mode (vim or emacs)
+keybindings = "vim"
+# Number of papers to display per page
+papers_per_page = 20
+# Show line numbers in lists
+show_line_numbers = true
+# Refresh rate in milliseconds
+tick_rate_ms = 250
+
+[storage]
+# Cache directory for temporary data
+cache_dir = "~/.cache/arxiv-tui"
+# Directory for downloaded PDFs
+download_dir = "~/Documents/arxiv-papers"
+# Maximum cache size in MB
+max_cache_size_mb = 500
+
+[search]
+# Minimum similarity score for semantic search (0.0 - 1.0)
+min_similarity = 0.7
+# Maximum number of results to return
+max_results = 50
+# Enable fuzzy search fallback
+enable_fuzzy = true
+
+[logging]
+# Log level (trace, debug, info, warn, error)
+level = "info"
+# Log to file
+log_to_file = false
+# Log file path
+log_file = "~/.cache/arxiv-tui/arxiv-tui.log"
